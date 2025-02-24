@@ -1,8 +1,5 @@
-# Flask web framework
 Flask
-# Audio processing
 pydub
-# Transformers + PyTorch for Whisper or KB-Whisper
 transformers
 torch
 huggingface_hub
