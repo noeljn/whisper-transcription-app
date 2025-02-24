@@ -60,6 +60,10 @@ Note: The flask-app should run on any linux/windows machine, but you might have 
    - Wait for transcription to complete
    - Download the results as a text file
 
+3. **Change settings in config.yaml**:
+   - `model_id`: The model to use for transcription.
+   - `device`: The device to use for transcription.
+   - `chunk_length_s`: The chunk length to use for transcription.
 
 ## Notes
 For using the redis-flask-app, you need to install redis and start the server.
