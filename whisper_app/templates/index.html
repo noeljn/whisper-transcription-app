@@ -57,6 +57,25 @@
       .download-link:hover {
         text-decoration: underline;
       }
+
+      /* Spinner Styles */
+      #spinner {
+        display: none; /* Hidden by default */
+        text-align: center;
+        margin-top: 20px;
+      }
+      .spinner-icon {
+        width: 40px;
+        height: 40px;
+        border: 6px solid #ccc;
+        border-top-color: #007BFF;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
     </style>
   </head>
   <body>
@@ -68,15 +87,31 @@
         <button type="submit">Convert</button>
       </form>
 
+      <!-- Spinner container -->
+      <div id="spinner">
+        <div class="spinner-icon"></div>
+        <p>Converting your audio, please wait...</p>
+      </div>
+
       {% if transcription %}
       <div class="result">
         <h2>Transcription Result:</h2>
         <p>{{ transcription }}</p>
-        <a class="download-link" href="{{ url_for('download_text') }}">
-          Download as .txt
-        </a>
+        <a class="download-link" href="{{ url_for('download_text') }}">Download as .txt</a>
       </div>
       {% endif %}
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector("form");
+        const spinner = document.getElementById("spinner");
+
+        // When the user submits the form, show the spinner
+        form.addEventListener("submit", function() {
+          spinner.style.display = "block";
+        });
+      });
+    </script>
   </body>
 </html>
