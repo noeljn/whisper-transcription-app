@@ -51,7 +51,7 @@ Note: The flask-app should run on any linux/windows machine, but you might have 
 ## Usage
 1. **Start the Flask Application** (in another terminal):
    ```bash
-   python app.py
+   python flask-app/app.py
    ```
 
 2. **Access the Web Interface**:
