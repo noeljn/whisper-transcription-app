@@ -37,7 +37,7 @@ def transcribe_audio(audio_file):
         "automatic-speech-recognition",
         model=model_id,
         chunk_length_s=30,
-        device="mps"
+        device="cpu"
     )
 
     # Suppress specific warnings during transcription

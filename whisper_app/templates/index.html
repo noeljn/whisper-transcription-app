@@ -87,8 +87,7 @@
         <button type="submit">Convert</button>
       </form>
 
-      <!-- Spinner container -->
-      <div id="spinner">
+      <div id="spinner" {% if transcription == "Transcription in progress..." %}style="display: block;"{% endif %}>
         <div class="spinner-icon"></div>
         <p>Converting your audio, please wait...</p>
       </div>
@@ -99,7 +98,10 @@
         <p>{{ transcription }}</p>
         <a class="download-link" href="{{ url_for('download_text') }}">Download as .txt</a>
       </div>
-      {% endif %}
+      {% elif job_id %}
+            <p>Job ID: {{ job_id }}</p>
+            <p>{{ transcription }}</p>
+        {% endif %}
     </div>
 
     <script>
