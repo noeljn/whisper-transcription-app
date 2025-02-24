@@ -1,0 +1,3 @@
+device: "cpu"
+model: "KBLab/kb-whisper-medium"
+chunk_length_s: 30

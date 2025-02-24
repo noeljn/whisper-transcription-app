@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Audio to Text Converter</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 500px;
+        max-width: 90%;
+        margin: 50px auto;
+        background: #fff;
+        padding: 20px 30px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      h1 {
+        margin-top: 0;
+        text-align: center;
+      }
+      form {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      input[type="file"] {
+        margin: 10px 0;
+      }
+      button {
+        padding: 10px 15px;
+        background: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #0056b3;
+      }
+      .result {
+        margin-top: 20px;
+        border-top: 1px solid #ccc;
+        padding-top: 20px;
+      }
+      .result h2 {
+        margin-top: 0;
+      }
+      .download-link {
+        display: inline-block;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #007BFF;
+      }
+      .download-link:hover {
+        text-decoration: underline;
+      }
+
+      /* Spinner Styles */
+      #spinner {
+        display: none; /* Hidden by default */
+        text-align: center;
+        margin-top: 20px;
+      }
+      .spinner-icon {
+        width: 40px;
+        height: 40px;
+        border: 6px solid #ccc;
+        border-top-color: #007BFF;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Upload an Audio File for Transcription</h1>
+      <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="audio_file" accept="audio/*" required>
+        <br>
+        <button type="submit">Convert</button>
+      </form>
+
+      <!-- Spinner container -->
+      <div id="spinner">
+        <div class="spinner-icon"></div>
+        <p>Converting your audio, please wait...</p>
+      </div>
+
+      {% if transcription %}
+      <div class="result">
+        <h2>Transcription Result:</h2>
+        <p>{{ transcription }}</p>
+        <a class="download-link" href="{{ url_for('download_text') }}">Download as .txt</a>
+      </div>
+      {% endif %}
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector("form");
+        const spinner = document.getElementById("spinner");
+
+        // When the user submits the form, show the spinner
+        form.addEventListener("submit", function() {
+          spinner.style.display = "block";
+        });
+      });
+    </script>
+  </body>
+</html>

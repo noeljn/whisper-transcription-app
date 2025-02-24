@@ -3,9 +3,19 @@ import warnings
 from transformers import pipeline
 from pydub import AudioSegment
 import tempfile
+import yaml
 
 def transcribe_audio(audio_file):
     ALLOWED_FORMATS = [".mp3", ".wav", ".flac"]
+
+    # Load configuration
+    with open('../config.yaml', 'r') as f:
+        config = yaml.safe_load(f)
+    
+    whisper_config = config.get('whisper', {})
+    model_id = whisper_config.get('model_id', 'KBLab/kb-whisper-medium')
+    device = whisper_config.get('device', 'cpu')
+    chunk_length_s = whisper_config.get('chunk_length_s', 30)
 
     # Suppress warnings
     warnings.filterwarnings("ignore")
@@ -29,15 +39,12 @@ def transcribe_audio(audio_file):
         except Exception as e:
             raise RuntimeError(f"Failed to convert audio file to a supported format. Error: {e}")
 
-    # Model ID for KBLab kb-whisper-medium
-    model_id = "KBLab/kb-whisper-medium"
-
     # Create the ASR pipeline
     asr_pipeline = pipeline(
         "automatic-speech-recognition",
         model=model_id,
-        chunk_length_s=30,
-        device="cpu"
+        chunk_length_s=chunk_length_s,
+        device=device
     )
 
     # Suppress specific warnings during transcription
