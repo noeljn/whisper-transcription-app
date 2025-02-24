@@ -52,7 +52,7 @@ Note: This should run a any linux machine, but you might have to make some adjus
 3. **Install Python dependencies**:
     ```bash
     pip install --upgrade pip  # optional, but recommended
-    pip install -r whisper_app/requirements.txt
+    pip install -r requirements.txt
     ```
 
 ## Usage
