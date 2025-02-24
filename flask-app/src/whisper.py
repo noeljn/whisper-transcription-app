@@ -25,19 +25,21 @@ def transcribe_audio(audio_file):
         raise FileNotFoundError(f"The audio file '{audio_file}' does not exist.")
 
     # Create a temporary file to store the converted audio
-    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(audio_file)[1])
-
-    if not any(audio_file.endswith(ext) for ext in ALLOWED_FORMATS):
-        # Convert the audio file to a supported format if possible
-        try:
-            ext = ALLOWED_FORMATS[0]
-            print(f"Converting {audio_file} to {ext}...")
-            # Convert the audio file to the supported format
-            audio = AudioSegment.from_file(audio_file)
-            audio.export(temp_file.name, format=ext.lstrip('.'))
-            audio_file = temp_file.name
-        except Exception as e:
-            raise RuntimeError(f"Failed to convert audio file to a supported format. Error: {e}")
+    with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(audio_file)[1]) as temp_file:
+        temp_file_path = temp_file.name
+        
+        if not any(audio_file.endswith(ext) for ext in ALLOWED_FORMATS):
+            # Convert the audio file to a supported format if possible
+            try:
+                ext = ALLOWED_FORMATS[0]
+                print(f"Converting {audio_file} to {ext}...")
+                # Convert the audio file to the supported format
+                audio = AudioSegment.from_file(audio_file)
+                audio.export(temp_file_path, format=ext.lstrip('.'))
+                audio_file = temp_file_path
+            except Exception as e:
+                os.unlink(temp_file_path)  # Clean up on error
+                raise RuntimeError(f"Failed to convert audio file to a supported format. Error: {e}")
 
     # Create the ASR pipeline
     asr_pipeline = pipeline(
@@ -58,6 +60,9 @@ def transcribe_audio(audio_file):
     print("Transcribed text:", transcribed_text)
 
     # Clean up the temporary file
-    os.remove(temp_file.name)
+    try:
+        os.unlink(temp_file_path)
+    except Exception as e:
+        print(f"Warning: Failed to delete temporary file {temp_file_path}: {e}")
 
     return transcribed_text
