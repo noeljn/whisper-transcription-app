@@ -2,6 +2,8 @@
 
 This repository hosts a simple Flask web application that accepts audio file uploads, queues transcription jobs in [Redis Queue (RQ)](https://python-rq.org/), and uses a **Whisper-based** model (via the [Transformers library](https://github.com/huggingface/transformers)) to transcribe the audio in the background.
 
+Note: This should run a any linux machine, but you might have to make some adjustments (and download additional requirements).
+
 ## Features
 
 - **Upload Audio**: User can upload `.mp3`, `.wav`, `.m4a`, or `.flac` files.
